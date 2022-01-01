@@ -1,21 +1,22 @@
 -- 
--- ATLAS SOFTWARE API - DB INSTALL SCRIPT
+-- Personal Website - DB INSTALL SCRIPT
 --
 
 -- ===========================================
 --
---	DATABASE #1 - ETERNAL BATTLES
+--	DATABASE #1 - api_spaceretr0_com
 --
-CREATE DATABASE IF NOT EXISTS eternal_battles;
-USE eternal_battles;
+CREATE DATABASE IF NOT EXISTS api_spaceretr0_com;
 
 --
--- Table structure for table `eb_players`
+-- Table structure for table `blog_posts`
 --
-CREATE TABLE IF NOT EXISTS eb_players (
-	id int AUTO_INCREMENT,
-	steamid varchar(18) NOT NULL,
-	perms int DEFAULT 0 NOT NULL,
+CREATE TABLE IF NOT EXISTS `api_spaceretr0_com`.`blog_posts`
+(
+    id        int AUTO_INCREMENT,
+    title     varchar(255)  NULL,
+    body	  longtext      NULL,
+    created   datetime      NULL,
 
 	PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);

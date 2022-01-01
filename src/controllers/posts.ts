@@ -1,78 +1,129 @@
 import { Request, Response, NextFunction } from "express";
-import axios, { AxiosResponse } from "axios";
+import Database from "../mysql";
 
-interface Post {
-	userId: number;
-	id: number;
-	title: string;
-	body: string;
-}
-
-// Get all posts from the database.
+// Get all posts from the database (well, almost all posts lol).
 const getPosts = async (req: Request, res: Response, next: NextFunction) =>
 {
-	const result: AxiosResponse = await axios.get("https://jsonplaceholder.typicode.com/posts");
-	const posts: [Post] = result.data;
-
-	return res.status(200).json({
-		message: posts
+	const query = "SELECT * FROM blog_posts LIMIT 100";
+	Database.query(query, (err: Error, results: Object[]) =>
+	{
+		if (err)
+		{
+			res.status(400).json({
+				message: "ERROR",
+				error: err,
+			});
+		}
+		else
+		{
+			res.json({
+				message: "SUCCESS",
+				response: results
+			});
+		}
 	});
 };
 
 // Get a single post.
 const getPost = async (req: Request, res: Response, next: NextFunction) =>
 {
-	const id: string = req.params.id;
+	const id = Database.escape(req.params.id);
+	const query = `SELECT * FROM blog_posts WHERE id = ${id}`;
 
-	const result: AxiosResponse = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`);
-	const post: Post = result.data;
-
-	return res.status(200).json({
-		message: post
+	Database.query(query, (err: Error, results: Object[]) =>
+	{
+		if (err)
+		{
+			res.status(400).json({
+				message: "ERROR",
+				error: err,
+			});
+		}
+		else
+		{
+			res.json({
+				message: "SUCCESS",
+				response: results
+			});
+		}
 	});
 };
 
 // Update a single post.
 const updatePost = async (req: Request, res: Response, next: NextFunction) =>
 {
-	const id: string = req.params.id;
-	const title: string = req.body.title ?? null;
-	const body: string = req.body.body ?? null;
+	const id = Database.escape(req.params.id);
+	const title = Database.escape(req.body.title) ?? null;
+	const body = Database.escape(req.body.body) ?? null;
+	const query = `UPDATE blog_posts SET title = ${title}, body = ${body} WHERE id = ${id}`;
 
-	const response: AxiosResponse = await axios.put(`https://jsonplaceholder.typicode.com/posts/${id}`, {
-		...(title && { title }),
-		...(body && { body })
-	});
-
-	return res.status(200).json({
-		message: response.data
+	Database.query(query, (err: Error, results: Object[]) =>
+	{
+		if (err)
+		{
+			res.status(400).json({
+				message: "ERROR",
+				error: err,
+			});
+		}
+		else
+		{
+			res.json({
+				message: "SUCCESS",
+				response: results
+			});
+		}
 	});
 };
 
 // Delete a single post.
 const deletePost = async (req: Request, res: Response, next: NextFunction) =>
 {
-	const id: string = req.params.id;
-	await axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`);
+	const id = Database.escape(req.params.id);
+	const query = `DELETE FROM blog_posts WHERE id = ${id}`;
 
-	return res.status(200).json({
-		message: "post deleted successfully"
+	Database.query(query, (err: Error, results: Object[]) =>
+	{
+		if (err)
+		{
+			res.status(400).json({
+				message: "ERROR",
+				error: err,
+			});
+		}
+		else
+		{
+			res.json({
+				message: "SUCCESS",
+				response: results
+			});
+		}
 	});
 };
 
 // Create a new post.
 const addPost = async (req: Request, res: Response, next: NextFunction) =>
 {
-	const title: string = req.body.title;
-	const body: string = req.body.body;
+	const title = Database.escape(req.body.title) ?? null;
+	const body = Database.escape(req.body.body) ?? null;
+	const query = `INSERT INTO blog_posts (title, body, created) VALUES (${title}, ${body}, now())`;
 
-	const response: AxiosResponse = await axios.post("https://jsonplaceholder.typicode.com/posts", {
-		title,
-		body
-	});
-
-	return res.status(200).json({
-		message: response.data
+	Database.query(query, (err: Error, results: Object[]) =>
+	{
+		if (err)
+		{
+			res.status(400).json({
+				message: "ERROR",
+				error: err,
+			});
+		}
+		else
+		{
+			res.json({
+				message: "SUCCESS",
+				response: results
+			});
+		}
 	});
 };
 

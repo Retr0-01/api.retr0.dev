@@ -1,19 +1,25 @@
 import http from "http";
 import express, { Express } from "express";
 import morgan from "morgan";
-import routes from "./routes/posts";
+import routes from "./routes";
+import { createWriteStream } from "fs";
 
-const router: Express = express();
+export const app: Express = express();
 
-// Utilize logging.
-router.use(morgan("common"));
+// Console logging.
+app.use(morgan("common"));
+// File logging.
+app.use(morgan("common", {
+	stream: createWriteStream("./logs/access.log", { flags: "a" })
+}));
+
 // Request parsing.
-router.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
 // JSON handling.
-router.use(express.json());
+app.use(express.json());
 
 // ===================== API RULES =====================
-router.use((req, res, next) =>
+app.use((req, res, next) =>
 {
 	// CORS policy
 	res.header("Access-Control-Allow-Origin", "*");
@@ -29,18 +35,19 @@ router.use((req, res, next) =>
 });
 
 // Routes.
-router.use("/", routes);
+app.use("/", routes);
 
 // Error handling.
-router.use((req, res, next) =>
+app.use((req, res, next) =>
 {
-	const error = new Error("not found");
+	const error = new Error("Not Found");
 	return res.status(404).json({
+		error: 404,
 		message: error.message
 	});
 });
 
 // Showtime! Start the server.
-const httpServer = http.createServer(router);
+const httpServer = http.createServer(app);
 const PORT = process.env.PORT ?? 6060;
 httpServer.listen(PORT, () => console.log(`The server is running on port ${PORT}`));
