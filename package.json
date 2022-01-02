@@ -2,9 +2,9 @@
   "name": "api.spaceretr0.com",
   "version": "1.0.0",
   "description": "Personal Website API",
-  "main": "src/server.ts",
+  "main": "src/index.ts",
   "scripts": {
-    "dev": "nodemon src/server.ts",
+    "start": "nodemon src/index.ts",
     "build": "tsc",
     "lint": "eslint . --ext .ts",
     "devInstall": "npm install --include=dev"
