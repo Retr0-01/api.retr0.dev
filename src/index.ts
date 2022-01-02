@@ -3,6 +3,7 @@ import express, { Express } from "express";
 import morgan from "morgan";
 import routes from "./routes";
 import { createWriteStream } from "fs";
+import helmet from "helmet";
 
 export const app: Express = express();
 
@@ -33,6 +34,9 @@ app.use((req, res, next) =>
 	}
 	next();
 });
+
+// Extra security.
+app.use(helmet());
 
 // Routes.
 app.use("/", routes);
