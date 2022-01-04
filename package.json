@@ -4,10 +4,11 @@
   "description": "Personal Website API",
   "main": "src/index.ts",
   "scripts": {
-    "start": "nodemon src/index.ts",
+    "devStart": "nodemon src/index.ts",
+    "devInstall": "npm install --include=dev",
     "build": "tsc",
     "lint": "eslint . --ext .ts",
-    "devInstall": "npm install --include=dev"
+    "start": "pm2 start"
   },
   "author": "Retr0",
   "license": "MIT",

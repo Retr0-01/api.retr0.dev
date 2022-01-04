@@ -20,4 +20,14 @@ jobs:
         run: |
           sudo cp -a $GITHUB_WORKSPACE/. /var/www/api.spaceretr0.com/
           cd /var/www/api.spaceretr0.com
+ Build:
+    name: Compile
+    needs: Deploy
+    runs-on: [self-hosted, webserver]
+    steps:
+      - name: Compile & Start
+        run: |
+          cd /var/www/api.spaceretr0.com
+          npm run build
+          npm run start
           
