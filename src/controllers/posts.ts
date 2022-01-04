@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import Database from "../mysql";
+import Database from "../classes/Database";
 
 // Get all posts from the database (well, almost all posts lol).
 const getPosts = async (req: Request, res: Response, next: NextFunction) =>

@@ -1,6 +1,9 @@
 import mysql from "mysql";
-import { database } from "./config.json";
+import { database } from "../config.json";
 
+/**
+ * Our database class, for handling connections and queries.
+ */
 export default class Database
 {
 	private static _instance: Database;
@@ -41,7 +44,7 @@ export default class Database
 			}
 			else if (results.length === 0)
 			{
-				callback("No records found");
+				callback(null, 0);
 			}
 			else
 			{

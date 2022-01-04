@@ -41,7 +41,8 @@ app.use(helmet());
 // Routes.
 app.use("/", routes);
 
-// For production deployments with nginx so we always get the correct req.ip
+// For production deployments with nginx so we always get the correct request IP (and also have working logs)
+// https://expressjs.com/en/guide/behind-proxies.html
 app.set("trust proxy", true);
 
 // Error handling.
