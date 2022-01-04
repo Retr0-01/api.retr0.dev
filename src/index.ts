@@ -41,6 +41,9 @@ app.use(helmet());
 // Routes.
 app.use("/", routes);
 
+// For production deployments with nginx so we always get the correct req.ip
+app.set("trust proxy", true);
+
 // Error handling.
 app.use((req, res, next) =>
 {
