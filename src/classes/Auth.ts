@@ -1,5 +1,6 @@
 import Database from "./Database";
-import Encryption from "./Encryption";
+import APIKey from "../types/APIKey";
+import bcrypt from "bcrypt";
 
 /**
  * Authentication Class - For controlling API authentication using API keys.
@@ -10,45 +11,23 @@ export default class Auth
 	 * Add a new API key to the database.
 	 * @param apiKey The API key to add.
 	 * @param comment An optional comment for this key.
-	 * @returns The hashed key added.
 	 */
-	public static AddNewAPIKey(apiKey: string, comment?: string): void
+	public static AddNewAPIKey(plainText: string, comment?: string)
 	{
-		const hashedKey = Encryption.generateHash(apiKey, (err: Error, hash: string) =>
-		{
-			if (err) return console.error(err);
-			else return hash;
-		});
+		const cleanText = Database.escape(plainText);
+		const cleanComment = Database.escape(comment);
 
-		const query = `INSERT INTO api_keys (hashedKey, comment, created) VALUES (${hashedKey}, ${comment}, now())`;
-
-		Database.query(query, (err: Error, results: Object[]) =>
+		bcrypt.hash(cleanText, 10, (err, hash) =>
 		{
-			if (err)
+			if (err) return err;
+
+			const query = `INSERT INTO api_keys (hashedKey, comment, created) VALUES ('${hash}', ${cleanComment}, now())`;
+
+			Database.query(query, (err: Error, results: APIKey[]) =>
 			{
-				return console.error(err);
-			}
-			else
-			{
-				console.log("Key successfully added!");
-			}
+				if (err) return console.error(err);
+				else console.log("Key successfully added!");
+			});
 		});
 	}
-
-	// public static IsAuthed(apiKey: string): boolean
-	// {
-	// 	const query = "SELECT * FROM api_keys";
-	// 	Database.query(query, (err: Error, results: Object[]) => {
-	// 		if (err) {
-	// 			return console.error(err);
-	// 		}
-	// 		else {
-	// 			results.forEach(key: APIKey => {
-	// 				Encryption.compareAgainstHash(apiKey, key.apikey, (err: Error, hash: string) => {
-	// 					if (err) return console.error(err);
-	// 					else return hash;
-	// 				});
-	// 			}
-	// 	});
-	// }
 }

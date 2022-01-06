@@ -37,7 +37,6 @@ export default class Database
 	{
 		this.instance.connection.query(query, (err: Error, results: Object[], fields: []) =>
 		{
-
 			if (err)
 			{
 				callback(err);

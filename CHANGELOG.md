@@ -1,5 +1,12 @@
 # Change Log
 
+## January 6th 2022
+- Implemented the "isAuthed" middleware. Endpoints can now use that to have a valid API key required.
+- Added an example API key to the the table create code.
+- Added types for everything that needed a type.
+- Secured any current POST/PUT/DELETE endpoints.
+- Updated the docs.
+
 ## January 4th 2022
 - Configure PM2 and its script.
 - Set `trust proxy` to true so we have our proper IPs in logging.
