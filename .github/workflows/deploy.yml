@@ -15,9 +15,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Deploy
         run: |
-          mkdir -p /var/www/spaceretr0.com/
-          sudo cp -a $GITHUB_WORKSPACE/. /var/www/spaceretr0.com/
-          cd /var/www/spaceretr0.com
+          mkdir -p /var/www/api.spaceretr0.com/
+          sudo cp -a $GITHUB_WORKSPACE/. /var/www/api.spaceretr0.com/
   Build:
      name: Compile
      needs: Deploy
