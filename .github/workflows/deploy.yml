@@ -25,6 +25,7 @@ jobs:
        - name: Compile & Start
          run: |
            cd /var/www/api.spaceretr0.com
+           npm install
            npm run build
            npm run start
           
