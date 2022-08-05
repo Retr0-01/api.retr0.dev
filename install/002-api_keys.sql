@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `api_spaceretr0_com`.`api_keys`
+CREATE TABLE IF NOT EXISTS `api_retr0_dev`.`api_keys`
 (
     id          int             AUTO_INCREMENT,
     hashedKey   longtext        NULL,

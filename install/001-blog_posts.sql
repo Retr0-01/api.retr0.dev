@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `api_spaceretr0_com`.`blog_posts`
+CREATE TABLE IF NOT EXISTS `api_retr0_dev`.`blog_posts`
 (
     id          int             AUTO_INCREMENT,
     title       varchar(255)    NULL,

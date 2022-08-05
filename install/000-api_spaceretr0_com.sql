@@ -1,1 +1,1 @@
-CREATE DATABASE IF NOT EXISTS api_spaceretr0_com;
+CREATE DATABASE IF NOT EXISTS api_retr0_dev;

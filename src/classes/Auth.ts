@@ -9,7 +9,7 @@ export default class Auth
 {
 	/**
 	 * Add a new API key to the database.
-	 * @param apiKey The API key to add.
+	 * @param plainText The API key to add.
 	 * @param comment An optional comment for this key.
 	 */
 	public static AddNewAPIKey(plainText: string, comment?: string)
